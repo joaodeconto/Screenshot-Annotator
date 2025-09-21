@@ -1,0 +1,60 @@
+<Window x:Class="SnipAndSnatch.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+        mc:Ignorable="d"
+        Title="Snip &amp; Snatch"
+        Height="720"
+        Width="1200"
+        MinHeight="600"
+        MinWidth="800" AllowDrop="True"
+        PreviewDragOver="OnPreviewDragOver"
+        Drop="OnDrop">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <Border Grid.Row="0"
+            Background="#11141c"
+            Padding="12"
+            BorderBrush="#1f2432"
+            BorderThickness="0,0,0,1">
+      <DockPanel LastChildFill="False">
+        <StackPanel Orientation="Horizontal"
+                    DockPanel.Dock="Left"
+                    Margin="0,0,24,0"
+                    VerticalAlignment="Center">
+          <Button x:Name="OpenButton"
+                  Width="120"
+                  Margin="0,0,8,0"
+                  Content="Abrir imagem..."
+                  Click="OnOpenImage" />
+          <Button x:Name="PasteButton"
+                  Width="120"
+                  Margin="0,0,8,0"
+                  Content="Colar do clipboard"
+                  Click="OnPasteImage" />
+          <Button x:Name="ReloadButton"
+                  Width="96"
+                  Content="Recarregar"
+                  Click="OnReload" />
+        </StackPanel>
+        <TextBlock Foreground="#9aa3b7"
+                   VerticalAlignment="Center"
+                   Text="Snip &amp; Snatch — captura, anote e cole (fase 1)" />
+      </DockPanel>
+    </Border>
+
+    <wv2:WebView2 x:Name="WebView"
+                  Grid.Row="1"
+                  Margin="0"
+                  AllowDrop="True"
+                  PreviewDragOver="OnPreviewDragOver"
+                  Drop="OnDrop"
+                  DefaultBackgroundColor="#00000000" />
+  </Grid>
+</Window>

@@ -102,7 +102,13 @@
   tools.forEach(b=> b.addEventListener('click', ()=> setTool(b.dataset.tool)));
 
   // Load image
-  function loadImage(src){ const img=new Image(); img.onload=()=>{ state.img=img; setSize(img.naturalWidth, img.naturalHeight); drawBase(); pushHistory(); }; img.src=src; }
+  function loadImage(src){
+    const img=new Image();
+    img.onload=()=>{ state.img=img; setSize(img.naturalWidth, img.naturalHeight); drawBase(); pushHistory(); };
+    img.src=src;
+  }
+  window.SnipAndSnatch = window.SnipAndSnatch || {};
+  window.SnipAndSnatch.loadImage = loadImage;
   file.addEventListener('change', e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=> loadImage(r.result); r.readAsDataURL(f) })
   stage.addEventListener('dragover', e=>{ e.preventDefault(); })
   stage.addEventListener('drop', e=>{ e.preventDefault(); const f=e.dataTransfer.files?.[0]; if(f && f.type.startsWith('image/')){ const r=new FileReader(); r.onload=()=> loadImage(r.result); r.readAsDataURL(f) } })
@@ -184,6 +190,14 @@
   exportBtn.addEventListener('click', ()=>{
     const a=document.createElement('a'); a.href=c.toDataURL('image/png'); a.download=`annotated-${Date.now()}.png`; a.click();
   })
+
+  if (window.__snipPending) {
+    const pending = window.__snipPending;
+    window.__snipPending = null;
+    if (pending) {
+      loadImage(pending);
+    }
+  }
 
   // Keyboard shortcuts
   window.addEventListener('keydown', e=>{
