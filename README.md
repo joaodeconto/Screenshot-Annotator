@@ -16,6 +16,8 @@ Um único index.html que abre/cola uma imagem e permite:
 - Redigir (caixa sólida)
 - Pixelar (blur modo mosaico)
 - Desfazer, Limpar, Exportar PNG
+- Copiar PNG direto pro clipboard (botão ou Ctrl/⌘+C)
+- Capturar a tela usando getDisplayMedia (botão “Capturar Tela”)
 - Drag-and-drop e colar do clipboard (Ctrl/⌘+V)
 
 English summary: One-file, no-build image annotator. Open or paste an image, add arrows/boxes/text/highlights, redact or pixelate, undo/clear, and export a PNG.
@@ -24,24 +26,26 @@ English summary: One-file, no-build image annotator. Open or paste an image, add
 
 - Fast one-file app: just `index.html` in a browser
 - Tools: Arrow, Rectangle, Ellipse, Text, Highlighter, Redact, Pixelate
-- Input: File picker, drag-and-drop, paste from clipboard
+- Input: File picker, drag-and-drop, paste from clipboard, or screen capture via getDisplayMedia
+- Text editor: floating palette with color + font presets
 - Controls: Color and thickness per tool
 - History: Undo last operation, Clear all
-- Export: Download annotated PNG
+- Export: Download or copy annotated PNG
 
 ## Quick Start
 
 1) Open `index.html` directly in your browser.
-2) Drag an image onto the page or press the Paste button and paste with Ctrl/⌘+V.
-3) Select a tool, draw, and export.
+2) Carregue uma imagem (arquivo, drag-and-drop, Paste) ou clique **Capturar Tela** para selecionar uma janela/monitor.
+3) Escolha a ferramenta, desenhe e ajuste cor/espessura ou texto.
+4) Copie (Ctrl/⌘+C) ou exporte em PNG.
 
 Tip: Works offline. Modern browsers recommended (Edge/Chrome/Firefox).
 
 ## Usage
 
-- Load image: Use the file input, drag-and-drop, or paste from clipboard.
+- Load image: Use the file input, drag-and-drop, paste from clipboard, or **Capturar Tela** (permite escolher monitor/janela via navegador).
 - Choose tool: Arrow, Rect, Ellipse, Text, Highlighter, Redact, Pixelate.
-- Draw: Click and drag. For Text, click once, type, Enter to commit.
+- Draw: Click and drag. For Text, clique uma vez, use o editor flutuante (cor/fonte) e Enter para aplicar.
 - Color/Thickness: Adjust using the controls in the toolbar.
 - Undo/Clear: Revert last step or reset the canvas.
 
@@ -49,14 +53,14 @@ Tip: Works offline. Modern browsers recommended (Edge/Chrome/Firefox).
 
 - Ctrl/⌘+V: Paste image from clipboard
 - Ctrl/⌘+Z: Undo last operation
+- Ctrl/⌘+C: Copy annotated PNG to clipboard
 
 ## Export and Share
 
 - Export PNG: Click “Exportar PNG” to download.
-- Copy to clipboard: After exporting, you can re-open and paste into chats, docs, or issue trackers. Many AI chat UIs support pasting images with your text prompt.
+- Copy PNG: Use “Copiar (Ctrl/⌘+C)” or the shortcut to enviar o canvas direto pro clipboard e colar em chats, docs ou assistentes de IA.
 
 Planned sharing additions (see roadmap):
-- “Copy as PNG” button (direct clipboard copy from canvas)
 - “Copy as Markdown” with embedded image (data URL) for quick paste
 - “Send to …” actions (open target with image attached when supported)
 
