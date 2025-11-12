@@ -1,0 +1,30 @@
+<Window
+    x:Class="SnipSnatch.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:SnipSnatch"
+    xmlns:views="using:SnipSnatch.Views"
+    mc:Ignorable="d"
+    Title="Snip &amp; Snatch"
+    Width="1080"
+    Height="720">
+    <Grid Background="{StaticResource SurfaceBrush}">
+        <!-- Minimal top bar -->
+        <Grid RowDefinitions="Auto,*">
+            <CommandBar DefaultLabelPosition="Right" Background="{StaticResource PanelBrush}" Foreground="{StaticResource TextBrush}">
+                <AppBarButton Icon="Camera" Label="Capturar"/>
+                <AppBarButton Icon="Paste" Label="Colar"/>
+                <AppBarSeparator/>
+                <AppBarButton Icon="Undo" Label="Desfazer"/>
+                <AppBarButton Icon="Delete" Label="Limpar"/>
+                <AppBarSeparator/>
+                <AppBarButton Icon="Copy" Label="Copiar PNG"/>
+                <AppBarButton Icon="Save" Label="Exportar"/>
+            </CommandBar>
+            <views:EditorPage Grid.Row="1"/>
+        </Grid>
+    </Grid>
+</Window>
+
