@@ -3,6 +3,7 @@
 - [Screenshot-Annotator](#screenshot-annotator)
 - [Features](#features)
 - [Quick Start](#quick-start)
+- [Windows wrapper – "Snip & Snatch"](#windows-wrapper--snip--snatch)
 - [Usage](#usage)
 - [Keyboard Shortcuts](#keyboard-shortcuts)
 - [Export and Share](#export-and-share)
@@ -41,6 +42,17 @@ English summary: One-file, no-build image annotator. Open or paste an image, add
 
 Tip: Works offline. Modern browsers recommended (Edge/Chrome/Firefox).
 
+## Windows wrapper – "Snip & Snatch"
+
+Phase 1 of the Windows roadmap is available in `windows/SnipAndSnatch.Desktop`. It's a small WPF/WebView2 host that bundles the existing `index.html` and adds Windows-specific affordances:
+
+- Abrir imagem via diálogo nativo e enviar direto para o canvas
+- Colar do clipboard do Windows (Ctrl+V ou botão dedicado)
+- Arrastar soltar arquivos na janela
+- Passar caminho de arquivo via linha de comando (`SnipAndSnatch.exe c\temp\capture.png`)
+
+Veja `windows/README.md` para requisitos, build (`dotnet publish`) e próximos passos.
+
 ## Usage
 
 - Load image: Use the file input, drag-and-drop, paste from clipboard, or **Capturar Tela** (permite escolher monitor/janela via navegador).
@@ -70,10 +82,10 @@ Goal: A native-feeling Windows app focused on ultra-fast capture → annotate �
 
 Phases:
 
-1) Wrap current app as desktop (WebView2)
-   - Shell app (WinUI 3 or WPF) hosting `index.html` via WebView2
-   - Single-EXE distribution using self-contained publish
-   - File protocol/IPC to pass captured images into the canvas
+1) Wrap current app as desktop (WebView2) — ✅ disponível em `windows/SnipAndSnatch.Desktop`
+   - [x] Shell app (WPF) hospedando `index.html` via WebView2
+   - [x] Single-EXE distribution via publish self-contained (`dotnet publish` exemplo no README)
+   - [x] File protocol/IPC: abre arquivos, cola do clipboard, drag-and-drop e argumento de linha de comando
 
 2) Snip integration (capture)
    - Use Windows Graphics Capture API for region/window/fullscreen capture
