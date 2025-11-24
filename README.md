@@ -1,97 +1,86 @@
-# Screenshot-Annotator
+# Screenshot Annotator
 
-- [Screenshot-Annotator](#screenshot-annotator)
-- [Features](#features)
-- [Quick Start](#quick-start)
-- [Usage](#usage)
-- [Keyboard Shortcuts](#keyboard-shortcuts)
-- [Export and Share](#export-and-share)
-- [Roadmap — "Snip & Snatch" (Windows)](#roadmap--snip--snatch-windows)
-- [Development Notes](#development-notes)
+React + TypeScript rewrite of the original single-file canvas tool. Still zero backend: open the page, drop or paste an image, annotate, and export a PNG.
 
-Um único index.html que abre/cola uma imagem e permite:
-
-- Seta, Retângulo, Elipse, Texto
-- Marcador (highlight semitransparente)
-- Redigir (caixa sólida)
-- Pixelar (blur modo mosaico)
-- Desfazer, Limpar, Exportar PNG
-- Drag-and-drop e colar do clipboard (Ctrl/⌘+V)
-
-English summary: One-file, no-build image annotator. Open or paste an image, add arrows/boxes/text/highlights, redact or pixelate, undo/clear, and export a PNG.
+English summary: lightweight offline image annotator implemented with React, TypeScript, and Vite. Supports arrows, boxes, ellipses, free text, highlights, redact boxes, blur/pixelate, undo/clear, screen capture, and PNG export.
 
 ## Features
 
-- Fast one-file app: just `index.html` in a browser
 - Tools: Arrow, Rectangle, Ellipse, Text, Highlighter, Redact, Pixelate
-- Input: File picker, drag-and-drop, paste from clipboard
-- Controls: Color and thickness per tool
-- History: Undo last operation, Clear all
-- Export: Download annotated PNG
+- Inputs: File picker, drag-and-drop, clipboard paste (Ctrl/+V), and browser screen capture
+- Controls: Color picker and adjustable stroke thickness per tool
+- History: Undo (Ctrl/+Z) with snapshot stack and clear canvas
+- Clipboard: Copy annotated PNG directly (Ctrl/+C or Copiar button)
+- Guides: Toggleable alignment grid, spacing control, and a pixel-perfect 1:1 lock for detail work
+- Export: Download annotated PNG files (one click) or copy a Markdown snippet with an inline data URL
+- UX niceties: Floating text editor, responsive canvas scaling, quick color swatches, clipboard button, Windows snipping hook via `window.__snipPending`
 
 ## Quick Start
 
-1) Open `index.html` directly in your browser.
-2) Drag an image onto the page or press the Paste button and paste with Ctrl/⌘+V.
-3) Select a tool, draw, and export.
+```bash
+npm install
+npm run dev
+```
 
-Tip: Works offline. Modern browsers recommended (Edge/Chrome/Firefox).
+Open the printed URL (default http://localhost:5173) and start annotating. For a production bundle:
+
+```bash
+npm run build
+```
+
+Deploy the `dist/` folder (GitHub Pages, Vercel, Netlify, etc.).
 
 ## Usage
 
-- Load image: Use the file input, drag-and-drop, or paste from clipboard.
-- Choose tool: Arrow, Rect, Ellipse, Text, Highlighter, Redact, Pixelate.
-- Draw: Click and drag. For Text, click once, type, Enter to commit.
-- Color/Thickness: Adjust using the controls in the toolbar.
-- Undo/Clear: Revert last step or reset the canvas.
+- Load an image via file picker, drag-and-drop, clipboard paste, or screen capture.
+- Select a tool on the toolbar. Buttons show pressed state for the current tool.
+- Click and drag to draw. For Text, click once, type, press Enter (Esc cancels).
+- Use the color picker and thickness input to configure lines/fills.
+- Undo reverts the last canvas change; Clear resets to the original image.
+- Copiar PNG uses the Clipboard API for instant paste into chats/docs; Export downloads `annotated-<timestamp>.png`.
 
 ## Keyboard Shortcuts
 
-- Ctrl/⌘+V: Paste image from clipboard
-- Ctrl/⌘+Z: Undo last operation
+- `Ctrl/+V` (or `Cmd/+V` on macOS): paste image from clipboard
+- `Ctrl/+Z` (or `Cmd/+Z`): undo last action
+- `Ctrl/+C` (or `Cmd/+C`): copy annotated PNG to clipboard
+- Tool jumps: `A` arrow, `R` rectangle, `E` ellipse, `T` text, `H` highlighter, `X` redact, `B` pixelate, `D` draw, `C` crop
+- Toggles: `G` grid on/off, `L` lock/unlock 1:1 scale
 
 ## Export and Share
 
-- Export PNG: Click “Exportar PNG” to download.
-- Copy to clipboard: After exporting, you can re-open and paste into chats, docs, or issue trackers. Many AI chat UIs support pasting images with your text prompt.
+- `Copiar PNG` usa o Clipboard API para colar direto em chats, issues ou documentos.
+- `Exportar PNG` downloads the annotated canvas as a PNG.
+- The resulting file can be inserted directly into docs, issues, or AI chat UIs.
+- Planned additions (see roadmap):
+  - Copy-as-PNG to clipboard
+  - Copy-as-Markdown snippet with embedded data URL
+  - "Send to..." integrations for popular AI assistants
 
-Planned sharing additions (see roadmap):
-- “Copy as PNG” button (direct clipboard copy from canvas)
-- “Copy as Markdown” with embedded image (data URL) for quick paste
-- “Send to …” actions (open target with image attached when supported)
+## Roadmap - "Snip & Snatch" (Windows)
 
-## Roadmap — "Snip & Snatch" (Windows)
+Goal: native-feeling Windows experience for capture -> annotate -> share in seconds.
 
-Goal: A native-feeling Windows app focused on ultra-fast capture → annotate → paste/share to AI assistants.
-
-Phases:
-
-1) Wrap current app as desktop (WebView2)
-   - Shell app (WinUI 3 or WPF) hosting `index.html` via WebView2
-   - Single-EXE distribution using self-contained publish
-   - File protocol/IPC to pass captured images into the canvas
-
-2) Snip integration (capture)
-   - Use Windows Graphics Capture API for region/window/fullscreen capture
-   - Global hotkey (e.g. PrintScreen or configurable) to start capture → auto-open annotator
-   - Paste pipeline: auto-copy annotated output to clipboard on Export
-
-3) Power user polish
-   - Copy to clipboard (PNG) without a save dialog
-   - Copy as Markdown with embedded data URL (optional size guard)
-   - Quick color presets and tool cycling shortcuts
-
-4) “Send to AI” actions
-   - Configurable targets (e.g., ChatGPT, local tools) launched with the image ready to paste
-   - Optional helper that monitors clipboard and auto-focuses target app
-
-Notes on tech choices:
-- WebView2 keeps footprint small and performance snappy on Windows
-- Native capture via Windows Graphics Capture provides crisp, multi-monitor support
-- Everything continues to work offline; no cloud dependency
+1. **Desktop wrapper**
+   - WinUI 3/WPF host using WebView2 pointing at the built app
+   - Single-file distribution via self-contained publish
+   - Lightweight IPC to push captured images into the canvas
+2. **Snipping integration**
+   - Windows Graphics Capture API for region/window/fullscreen grab
+   - Global hotkey (PrintScreen or user-defined) that opens the annotator automatically
+   - Automatic clipboard copy after export
+3. **Power-user polish**
+   - Clipboard export without dialog
+   - Markdown copy with inline data URL (size-guarded)
+   - Quick color presets and keyboard tool cycling
+4. **Send-to-AI actions**
+   - Configurable targets (ChatGPT, local apps, etc.) launched with image pre-attached
+   - Optional helper watching clipboard focus to speed up pasting
 
 ## Development Notes
 
-- This repo’s core is `index.html` — a single file with HTML/CSS/JS.
-- Keep changes minimal and fast; avoid heavy dependencies.
-- For Windows wrapper, prefer a thin host project and load `index.html` as-is.
+- Stack: React 19, TypeScript, Vite, Canvas 2D API.
+- `npm run dev` for HMR, `npm run build` for production, `npm run lint` for ESLint.
+- Canvas logic mirrors the legacy single-file version but split into hooks/functions for clarity.
+- `docs/layout_reference.png` keeps the visual reference used during the refactor.
+- No extra runtime dependencies were needed beyond React itself.
